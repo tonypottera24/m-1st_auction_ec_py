@@ -1,7 +1,5 @@
-from lib.big_number import BigNumber
 from lib.ct import Ct
 from web3 import Web3
-from constants.crypto import p, q, g, z
 from constants.auction import price, time_limit
 
 

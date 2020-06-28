@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from lib.big_number import BigNumber
 from web3 import Web3
 from deploy import deploy
 from auctioneer import Auctioneer
@@ -10,6 +9,20 @@ from random import randrange
 from constants.auction import price
 import time
 from lib.ct import Ct
+from lib.ec_point import ECPointExt
+
+# g = ECPointExt.g()
+# negG = g.neg()
+# zero = ECPointExt.zero()
+# assert(g.add(negG).equals(zero))
+# assert(zero.double().equals(zero))
+# gg = zero
+# for i in range(1, q):
+#     if i % 1000 == 0:
+#         print(i)
+#     gg = gg.add(g)
+#     assert(gg.equals(g.scalar(i)))
+
 
 web3 = Web3(Web3.HTTPProvider(provider_url,
                               request_kwargs={'timeout': http_timeout}))
@@ -107,6 +120,7 @@ while True:
     print('({}, {}, {})'.format(binarySearchL,
                                 secondHighestBidPriceJ, binarySearchR))
     if success or binarySearchL == len(price) - 1:
+        print('Multiple bidder chose maximum bidding price.')
         break
     for auctioneer in auctioneers:
         auctioneer.phase_4_second_highest_bid_decision_dec()
@@ -116,6 +130,8 @@ if success == False:
     print('Phase 4 failed\n')
     exit(1)
 else:
+    secondHighestBidPriceJ = auction_contract.functions.secondHighestBidPriceJ().call()
+    print('secondHighestBidPriceJ = {}'.format(secondHighestBidPriceJ))
     print('Phase 4 success\n')
 
 print('Phase 5 winner decision:')
@@ -127,14 +143,31 @@ if success == False:
     print('Phase 5 failed\n')
     exit(1)
 else:
+    winnerI = auction_contract.functions.winnerI().call()
+    print('winnerI = {}'.format(winnerI))
     print('Phase 5 success\n')
 
-print('price = {}'.format(price))
-for bidder in bidders:
-    print('B{} bid_price_j = {}'.format(bidder.index, bidder.bid_price_j))
 
-winnerI = auction_contract.functions.winnerI().call()
-print('winnerI = {}'.format(winnerI))
+highest_bid_j = -1
+second_highest_bid_j = -1
+for bidder in bidders:
+    if bidder.bid_price_j > highest_bid_j:
+        second_highest_bid_j = highest_bid_j
+        highest_bid_j = bidder.bid_price_j
+
+for bidder in bidders:
+    if bidder.bid_price_j == highest_bid_j:
+        print('[B{:2}]'.format(bidder.index))
+    else:
+        print(' B{:2} '.format(bidder.index))
+
+for bidder in bidders:
+    if bidder.bid_price_j == second_highest_bid_j:
+        print('[{:3}]'.format(bidder.bid_price_j))
+    else:
+        print(' {:3} '.format(bidder.bid_price_j))
+
+print('price = {}'.format(price))
 
 # for auctioneer in auctioneers:
 #     print('A{} balance = {}'.format(auctioneer.index,
@@ -142,8 +175,8 @@ print('winnerI = {}'.format(winnerI))
 # for bidder in bidders:
 #     print('B{} balance = {}'.format(bidder.index,
 #                                     web3.eth.getBalance(bidder.addr)))
-# balances = auction_contract.functions.getBalance().call()
-# print('balances = {}'.format(balances))
+balances = auction_contract.functions.getBalance().call()
+print('balances = {}'.format(balances))
 
 print('Phase 6 payment:')
 bidders[winnerI].phase_6_payment()
@@ -162,5 +195,5 @@ else:
 #     print('B{} balance = {}'.format(bidder.index,
 #                                     web3.eth.getBalance(bidder.addr)))
 
-# balances = auction_contract.functions.getBalance().call()
-# print('balances = {}'.format(balances))
+balances = auction_contract.functions.getBalance().call()
+print('balances = {}'.format(balances))

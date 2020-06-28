@@ -1,23 +1,23 @@
 from random import randrange
 from web3 import Web3
-from lib.big_number import BigNumber
+from lib.ec_point import ECPointExt
+from fastecdsa.curve import P256
 
 
 class SameDLProof():
-    def __init__(self, g1, g2, x, p, q):
-        y1, y2 = pow(g1, x, p), pow(g2, x, p)
-        v = randrange(1, q)
-        t1, t2 = pow(g1, v, p), pow(g2, v, p)
+    def __init__(self, g1, g2, x):
+        # print('SameDLProof')
+        y1, y2 = g1.scalar(x), g2.scalar(x)
+        v = randrange(1, P256.q)
+        t1, t2 = g1.scalar(v), g2.scalar(v)
         c = Web3.solidityKeccak(['bytes'], [
-                                BigNumber.from_py(g1).val + BigNumber.from_py(g2).val + BigNumber.from_py(y1).val + BigNumber.from_py(y2).val + BigNumber.from_py(t1).val + BigNumber.from_py(t2).val])
-        c = int.from_bytes(c, byteorder='big') % q
-        r = (v - (c * x) % q) % q
-        if r < 0:
-            r += q
-        assert(c > 0 and r > 0)
-        assert(t1 == (pow(g1, r, p) * pow(y1, c, p)) % p)
-        assert(t2 == (pow(g2, r, p) * pow(y2, c, p)) % p)
+            g1.pack() + g2.pack() + y1.pack() + y2.pack() + t1.pack() + t2.pack()])
+        c = int.from_bytes(c, byteorder='big') % P256.q
+        r = (v + (P256.q - c * x % P256.q)) % P256.q
+
+        assert(t1.equals(g1.scalar(r).add(y1.scalar(c))))
+        assert(t2.equals(g2.scalar(r).add(y2.scalar(c))))
         self.t1, self.t2, self.r = t1, t2, r
 
     def to_sol(self):
-        return BigNumber.from_py(self.t1).to_sol(), BigNumber.from_py(self.t2).to_sol(), BigNumber.from_py(self.r).to_sol()
+        return self.t1.to_sol(), self.t2.to_sol(), self.r
