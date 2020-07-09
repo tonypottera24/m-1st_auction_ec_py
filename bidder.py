@@ -13,6 +13,7 @@ class Bidder():
         self.addr = addr
         self.contract_info = ContractInfo(auction_contract)
         self.contract_info.get_auction_const()
+        self.gas = 0
 
     def phase_2_bidder_join(self, bid_price_j, value=10):
         self.bid_price_j = bid_price_j
@@ -27,6 +28,7 @@ class Bidder():
         tx_hash = self.auction_contract.functions.phase2BidderJoin(bid).transact(
             {'from': self.addr, 'value': value, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "B{} bid_price_j = {}".format(
             self.index, bid_price_j))
 
@@ -36,5 +38,6 @@ class Bidder():
         tx_hash = self.auction_contract.functions.phase6Payment().transact(
             {'from': self.addr, 'value': price, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "B{} payed = {}".format(
             self.index, price))

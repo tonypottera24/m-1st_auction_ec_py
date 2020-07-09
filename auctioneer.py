@@ -23,18 +23,20 @@ class Auctioneer():
         x, y = keys.gen_keypair(curve.P256)
         self.x, self.y = x, ECPointExt(y)
         print('A{} x = {}'.format(self.index, self.x))
+        self.gas = 0
 
     def phase_1_auctioneer_init(self, value=10):
         pi = DLProof(ECPointExt.g(), self.x).to_sol()
         tx_hash = self.auction_contract.functions.phase1AuctioneerInit(
             self.y.to_sol(), pi).transact({'from': self.addr, 'value': value, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "A{}".format(self.index))
 
     def phase_2_time_left(self):
         self.contract_info.get_auction_const()
         t = self.contract_info.timer[1][0] + self.contract_info.timer[1][1]
-        t /= pow(10, 9)
+        # t /= pow(10, 9)
         dt = t - time.time()
         return dt if dt > 0 else 0
 
@@ -48,6 +50,7 @@ class Auctioneer():
         tx_hash = self.auction_contract.functions.phase3BidderVerificationSum1(
             ux_sols, pi_sols).transact({'from': self.addr, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "A{}".format(self.index))
 
     def phase_3_bidder_verification_01_omega(self):
@@ -71,6 +74,7 @@ class Auctioneer():
         tx_hash = self.auction_contract.functions.phase3BidderVerification01Omega(
             ctv_solss, ctvv_solss, pi_solss).transact({'from': self.addr, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "A{}".format(self.index))
 
     def phase_3_bidder_verification_01_dec(self):
@@ -96,6 +100,7 @@ class Auctioneer():
         tx_hash = self.auction_contract.functions.phase3BidderVerification01Dec(
             uxv_solss, piv_solss, uxvv_solss, pivv_solss).transact({'from': self.addr, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "A{}".format(self.index))
 
     def phase_4_second_highest_bid_decision_omega(self):
@@ -112,6 +117,7 @@ class Auctioneer():
         tx_hash = self.auction_contract.functions.phase4SecondHighestBidDecisionOmega(
             ctv_sols, ctvv_sols, pi_sols).transact({'from': self.addr, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "A{}".format(self.index))
 
     def phase_4_second_highest_bid_decision_dec(self):
@@ -124,6 +130,7 @@ class Auctioneer():
         tx_hash = self.auction_contract.functions.phase4SecondHighestBidDecisionDec(
             uxv_sol, piv_sol, uxvv_sol, pivv_sol).transact({'from': self.addr, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "A{}".format(self.index))
 
     def phase_5_winner_decision(self):
@@ -135,4 +142,5 @@ class Auctioneer():
         tx_hash = self.auction_contract.functions.phase5WinnerDecision(
             ux_sols, pi_sols).transact({'from': self.addr, 'gas': gas_limit})
         tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+        self.gas += tx_receipt['gasUsed']
         tx_print(tx_receipt, "A{}".format(self.index))
