@@ -1,0 +1,57 @@
+web3 connected!
+Contract created success, used 6,581,559 gas
+B0 x = 49352424217157111241174592844966849119683123457400881233554006068410201688126
+B1 x = 76791160002096040026626729555276533501547064817142771312258578571733854365767
+
+Phase 1 bidder init:
+B0 success, used 1,098,380 gas
+B1 success, used 1,140,482 gas
+Wait for phase 1 ends:
+wait 15.83 sec
+Phase 1 success
+
+Phase 2 bidder submit bid:
+B0 bid_price_j = 0 success, used 3,604,728 gas
+B1 bid_price_j = 1 success, used 3,639,656 gas
+Phase 2 success
+
+Phase 3.1 bidder verification sum 1:
+B0 success, used 4,381,276 gas
+B1 success, used 4,409,315 gas
+Phase 3.2.1 bidder verification 01 omega:
+B0 success, used 96,367,422 gas
+Phase 3.2.2 bidder verification 01 dec:
+B0 success, used 51,341,182 gas
+B1 success, used 55,905,156 gas
+Phase 3 success
+
+Phase 4.1 second highest bid decision omega:
+B0 success, used 37,706,757 gas
+Phase 4.2 second highest bid decision dec:
+(0, 2, 4)
+B0 success, used 4,935,740 gas
+B1 success, used 4,983,966 gas
+(0, 1, 2)
+B0 success, used 4,904,588 gas
+B1 success, used 4,937,943 gas
+(0, 0, 1)
+Multiple bidder chose maximum bidding price.
+secondHighestBidPriceJ = 0
+Phase 4 success
+
+Phase 5 winner decision:
+B0 success, used 5,335,258 gas
+B1 success, used 5,491,304 gas
+winnerI = 1
+Phase 5 success
+
+ B 0 [B 1]
+[  0]   1 
+price = [1, 2, 3, 4]
+balances = [10, 10]
+Phase 6 payment:
+B1 payed = 1 success, used 2,094,083 gas
+Phase 6 success
+
+B0 used 209,675,331 gas
+B1 used 82,601,905 gas
