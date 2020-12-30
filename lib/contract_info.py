@@ -1,16 +1,8 @@
-from lib.ct import Ct
-from web3 import Web3
-from constants.auction import price, time_limit
-
-
-class ContractInfo():
+class AuctionInfo():
     def __init__(self, auction_contract):
         self.auction_contract = auction_contract
+        self.update()
 
-    def get_auction_const(self):
+    def update(self):
         self.price = self.auction_contract.functions.getPrice().call()
-        for i in range(len(self.price)):
-            assert(self.price[i] == price[i])
         self.timer = self.auction_contract.functions.getTimer().call()
-        for i in range(len(self.timer)):
-            assert(self.timer[i][1] == time_limit[i])
