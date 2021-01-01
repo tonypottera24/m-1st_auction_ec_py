@@ -20,7 +20,7 @@ bidder_count = 3
 
 seller = Seller(accounts[0],
                 price=[p for p in range(1, bidder_count*2 + 1)],
-                time_limit=[25, 1000000, 1000000, 1000000, 1000000, 1000000],
+                time_limit=[15, 1000000, 1000000, 1000000, 1000000, 1000000],
                 balance_limit=10)
 
 auction_contract = deploy(web3, seller)
@@ -85,9 +85,9 @@ while True:
     success = auction_contract.functions.phase4Success().call()
     binarySearchL = auction_contract.functions.binarySearchL().call()
     binarySearchR = auction_contract.functions.binarySearchR().call()
-    secondHighestBidPriceJ = auction_contract.functions.secondHighestBidPriceJ().call()
+    secondHighestPriceJ = auction_contract.functions.secondHighestPriceJ().call()
     print('({}, {}, {})'.format(binarySearchL,
-                                secondHighestBidPriceJ, binarySearchR), flush=True)
+                                secondHighestPriceJ, binarySearchR), flush=True)
     if success or binarySearchL == len(bidders[0].auction_info.price) - 1:
         print('Multiple bidder chose maximum bidding price.', flush=True)
         break
@@ -99,9 +99,9 @@ if success == False:
     print('Phase 4 failed\n', flush=True)
     exit(1)
 else:
-    secondHighestBidPriceJ = auction_contract.functions.secondHighestBidPriceJ().call()
-    print('secondHighestBidPriceJ = {}'.format(
-        secondHighestBidPriceJ), flush=True)
+    secondHighestPriceJ = auction_contract.functions.secondHighestPriceJ().call()
+    print('secondHighestPriceJ = {}'.format(
+        secondHighestPriceJ), flush=True)
     print('Phase 4 success\n', flush=True)
 
 print('Phase 5 winner decision:', flush=True)

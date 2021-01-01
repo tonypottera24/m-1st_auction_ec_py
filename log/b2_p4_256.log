@@ -1,47 +1,47 @@
 web3 connected!
-Contract created success, used 6,581,559 gas
-B0 x = 49352424217157111241174592844966849119683123457400881233554006068410201688126
-B1 x = 76791160002096040026626729555276533501547064817142771312258578571733854365767
+Contract created success, used 5,748,852 gas
+B0 x = 31103091376935205516089467158512760484255595765942643145838712887257474007771
+B1 x = 40640169659568419699294275725596571762322995751295748197848537012848918339262
 
 Phase 1 bidder init:
-B0 success, used 1,098,380 gas
-B1 success, used 1,140,482 gas
+B0 success, used 1,174,459 gas
+B1 success, used 1,138,985 gas
 Wait for phase 1 ends:
-wait 15.83 sec
+wait 3.93 sec
 Phase 1 success
 
 Phase 2 bidder submit bid:
-B0 bid_price_j = 0 success, used 3,604,728 gas
-B1 bid_price_j = 1 success, used 3,639,656 gas
+B0 bid_price_j = 0 success, used 1,921,373 gas
+B1 bid_price_j = 1 success, used 1,945,662 gas
 Phase 2 success
 
 Phase 3.1 bidder verification sum 1:
-B0 success, used 4,381,276 gas
-B1 success, used 4,409,315 gas
+B0 success, used 4,510,932 gas
+B1 success, used 4,360,461 gas
 Phase 3.2.1 bidder verification 01 omega:
-B0 success, used 96,367,422 gas
+B0 success, used 53,178,179 gas
 Phase 3.2.2 bidder verification 01 dec:
-B0 success, used 51,341,182 gas
-B1 success, used 55,905,156 gas
+B0 success, used 50,493,819 gas
+B1 success, used 53,892,659 gas
 Phase 3 success
 
 Phase 4.1 second highest bid decision omega:
-B0 success, used 37,706,757 gas
+B0 success, used 22,318,180 gas
 Phase 4.2 second highest bid decision dec:
 (0, 2, 4)
-B0 success, used 4,935,740 gas
-B1 success, used 4,983,966 gas
+B0 success, used 4,724,698 gas
+B1 success, used 4,716,572 gas
 (0, 1, 2)
-B0 success, used 4,904,588 gas
-B1 success, used 4,937,943 gas
+B0 success, used 4,558,740 gas
+B1 success, used 4,662,351 gas
 (0, 0, 1)
 Multiple bidder chose maximum bidding price.
-secondHighestBidPriceJ = 0
+secondHighestPriceJ = 0
 Phase 4 success
 
 Phase 5 winner decision:
-B0 success, used 5,335,258 gas
-B1 success, used 5,491,304 gas
+B0 success, used 4,920,405 gas
+B1 success, used 5,082,729 gas
 winnerI = 1
 Phase 5 success
 
@@ -50,8 +50,8 @@ Phase 5 success
 price = [1, 2, 3, 4]
 balances = [10, 10]
 Phase 6 payment:
-B1 payed = 1 success, used 2,094,083 gas
+B1 payed = 1 success, used 1,205,530 gas
 Phase 6 success
 
-B0 used 209,675,331 gas
-B1 used 82,601,905 gas
+B0 used 147,800,785 gas
+B1 used 77,004,949 gas
