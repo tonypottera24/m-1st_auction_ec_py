@@ -6,14 +6,14 @@ from fastecdsa.curve import P256
 class DLProof():
     def __init__(self, g, x):
         y = g.scalar(x)
-        v = randrange(1, P256.q)
-        t = g.scalar(v)
+        rr = randrange(1, P256.q)
+        grr = g.scalar(rr)
         c = Web3.solidityKeccak(['bytes'], [
-            g.pack() + y.pack() + t.pack()])
+            g.pack() + y.pack() + grr.pack()])
         c = int.from_bytes(c, byteorder='big') % P256.q
-        r = (v + (P256.q - c * x % P256.q)) % P256.q
-        assert(t.equals(g.scalar(r).add(y.scalar(c))))
-        self.t, self.r = t, r
+        rrr = (rr + c * x % P256.q) % P256.q
+        assert(g.scalar(rrr).equals(grr.add(y.scalar(c))))
+        self.grr, self.rrr = grr, rrr
 
     def to_sol(self):
-        return self.t.to_sol(), self.r
+        return self.grr.to_sol(), self.rrr

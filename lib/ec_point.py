@@ -32,8 +32,10 @@ class ECPointExt():
         return self.pt.x.to_bytes(32, byteorder='big') + self.pt.y.to_bytes(32, byteorder='big')
 
     def add(self, pt):
-        # add-2008-hwcd, strongly unified.
         return ECPointExt(self.pt + pt.pt)
+
+    def sub(self, pt):
+        return ECPointExt(self.pt - pt.pt)
 
     def scalar(self, k):
         return ECPointExt(self.pt * k)
