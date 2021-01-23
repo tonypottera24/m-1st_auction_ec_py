@@ -35,7 +35,7 @@ else:
 
 accounts = web3.eth.accounts[1:]
 auctioneer_count = 2
-bidder_count = 5
+bidder_count = 3
 
 auction_contract = deploy(web3, [accounts[0], accounts[1]],
                           accounts[auctioneer_count + bidder_count])

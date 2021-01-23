@@ -45,7 +45,12 @@ def compile():
                         "metadata", "evm.bytecode", "evm.bytecode.sourceMap"
                     ]
                 }
+            },
+            "optimizer": {
+                "enabled": True,
+                "details": {
+                    "yul": False
+                }
             }
         }
-    })
-    # }, optimize=True, optimize_runs=1000)
+    }, solc_version='0.7.6')
